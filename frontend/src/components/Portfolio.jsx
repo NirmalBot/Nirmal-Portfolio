@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Github, Linkedin, Mail, Phone, MapPin, Send, ArrowUpRight, Download, Code2, GraduationCap, Briefcase, FolderGit2, Sparkles, FileText, Award, BookOpen } from "lucide-react";
+import { Github, Linkedin, Mail, Phone, MapPin, Send, ArrowUpRight, Download, Code2, GraduationCap, Briefcase, FolderGit2, Sparkles, FileText, Award, BookOpen, X } from "lucide-react";
 import axios from "axios";
 import { toast, Toaster } from "sonner";
 
@@ -267,6 +267,9 @@ const PROJECTS = [
     img: "https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=900&h=600&fit=crop",
     desc: "Random Forest Regression model predicting party‑wise vote share for the TN 2026 Assembly Election. End‑to‑end pipeline: preprocessing, feature engineering, training, and visualisation.",
     tags: ["Python", "Pandas", "Scikit‑learn", "Random Forest", "Colab"],
+    problem: "Forecasting election outcomes is notoriously volatile — sparse historical data, regional party dynamics, and rapidly shifting sentiment make traditional polling unreliable.",
+    approach: "Built a full ML pipeline in Google Colab: ingested constituency-level data, engineered features (incumbency, vote-share momentum, demographic indices), trained a Random Forest Regressor with hyperparameter tuning, and produced interactive visualisations.",
+    outcome: "Generated party-wise vote-share predictions for all major TN parties with cross-validated MAE within acceptable polling margins. Visualisations highlighted swing constituencies and emerging trends.",
   },
   {
     title: "No Code Chatbot With Dialogflow",
@@ -274,6 +277,9 @@ const PROJECTS = [
     img: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=900&h=600&fit=crop",
     desc: "Intelligent chatbot using Google Dialogflow with NLP and automated workflows for human‑like conversation.",
     tags: ["Dialogflow", "NLP", "Conversational AI"],
+    problem: "Small businesses needed conversational automation but lacked the engineering bandwidth to maintain a custom NLP stack.",
+    approach: "Designed intents, entities, and contexts in Dialogflow; modelled multi-turn dialogue flows; integrated fallback routing and rich-message responses without writing backend code.",
+    outcome: "Delivered a production-ready chatbot capable of handling FAQs, lead capture, and guided navigation — reducing manual support load and validating no-code conversational AI as a viable approach.",
   },
   {
     title: "Hunger Hero — Food Donation App",
@@ -281,6 +287,9 @@ const PROJECTS = [
     img: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=900&h=600&fit=crop",
     desc: "Android app linking food donors and recipients with real‑time notifications and donor‑recipient matching.",
     tags: ["Java", "Android", "Firebase", "Notifications"],
+    problem: "Surplus food from restaurants and households often goes to waste while NGOs and shelters struggle to source donations in real time.",
+    approach: "Built a native Android app in Java with Firebase Realtime DB + FCM push notifications. Donors post listings with geo-tags; nearby recipients are matched and notified instantly.",
+    outcome: "Functional MVP supporting donor sign-up, listing creation, recipient discovery, and live notifications — demonstrating a scalable model for community-driven food redistribution.",
   },
   {
     title: "Injury Anticipation in Football Players",
@@ -288,6 +297,9 @@ const PROJECTS = [
     img: "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=900&h=600&fit=crop",
     desc: "ML algorithms predicting player injuries — risk trends and early warning signs through robust feature engineering.",
     tags: ["Python", "ML", "Feature Engineering", "Healthcare AI"],
+    problem: "Injuries disrupt seasons and cost clubs millions — yet most prevention strategies are reactive rather than predictive.",
+    approach: "Compared multiple ML algorithms (Logistic Regression, Random Forest, XGBoost) on player workload, biomechanics, and medical history features. Performed extensive feature engineering and risk-trend analysis.",
+    outcome: "Identified the dominant injury-risk features and produced a model surfacing early-warning signals for high-risk athletes — published as research in IJSART.",
   },
   {
     title: "Scout & Deal — Football Transfer Recommender",
@@ -295,31 +307,129 @@ const PROJECTS = [
     img: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=900&h=600&fit=crop",
     desc: "Data‑driven recommender combining performance data with ML to evaluate players and forecast transfer suitability.",
     tags: ["Python", "ML", "Data Analytics", "Recommender"],
+    problem: "Scouting is expensive and biased; clubs need quantitative tools to surface undervalued players matching their tactical profile.",
+    approach: "Aggregated player performance datasets, engineered position-aware metrics, and built a hybrid recommender (content + similarity scoring) to suggest transfer targets aligned with club needs.",
+    outcome: "Recommender returned ranked transfer candidates with explainable similarity scores. Published as research in IJSART, March 2024.",
   },
 ];
 
 function Projects() {
+  const [active, setActive] = useState(null);
+
+  // Lock body scroll while modal open + ESC to close
+  useEffect(() => {
+    if (active === null) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e) => { if (e.key === "Escape") setActive(null); };
+    window.addEventListener("keydown", onKey);
+    return () => { document.body.style.overflow = prev; window.removeEventListener("keydown", onKey); };
+  }, [active]);
+
+  const p = active !== null ? PROJECTS[active] : null;
+
   return (
     <section id="projects" className="py-24 px-6 max-w-7xl mx-auto" data-testid="projects-section">
       <SectionTitle eyebrow="// projects" title="Featured Work" kicker="Showcasing innovative solutions in AI, Machine Learning, and Full‑Stack Development." />
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {PROJECTS.map((p, i) => (
-          <article key={p.title} className="glass rounded-2xl overflow-hidden card-hover group" data-testid={`project-card-${i}`}>
+        {PROJECTS.map((proj, i) => (
+          <article key={proj.title} className="glass rounded-2xl overflow-hidden card-hover group flex flex-col" data-testid={`project-card-${i}`}>
             <div className="relative aspect-[16/10] overflow-hidden">
-              <img src={p.img} alt={p.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+              <img src={proj.img} alt={proj.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-              <span className="absolute top-3 left-3 chip !bg-white/95 backdrop-blur-md">{p.cat}</span>
+              <span className="absolute top-3 left-3 chip !bg-white/95 backdrop-blur-md">{proj.cat}</span>
             </div>
-            <div className="p-6">
-              <h3 className="text-lg font-semibold leading-snug text-[#1a1a1a]">{p.title}</h3>
-              <p className="mt-2 text-sm text-muted-fg leading-relaxed">{p.desc}</p>
+            <div className="p-6 flex flex-col flex-1">
+              <h3 className="text-lg font-semibold leading-snug text-[#1a1a1a]">{proj.title}</h3>
+              <p className="mt-2 text-sm text-muted-fg leading-relaxed line-clamp-3">{proj.desc}</p>
               <div className="mt-4 flex flex-wrap">
-                {p.tags.map((t) => <span key={t} className="chip">{t}</span>)}
+                {proj.tags.map((t) => <span key={t} className="chip">{t}</span>)}
               </div>
+              <button
+                type="button"
+                onClick={() => setActive(i)}
+                className="btn-ghost mt-5 self-start text-sm py-2.5 px-4"
+                data-testid={`project-case-study-${i}`}
+                aria-label={`View case study for ${proj.title}`}
+              >
+                View Case Study <ArrowUpRight size={15} />
+              </button>
             </div>
           </article>
         ))}
       </div>
+
+      {p && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-8 bg-black/45 backdrop-blur-sm animate-[fadeUp_.25s_ease]"
+          onClick={() => setActive(null)}
+          data-testid="case-study-modal"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="case-study-title"
+        >
+          <div
+            className="relative w-full max-w-3xl max-h-[90vh] overflow-hidden bg-white rounded-2xl border border-[#f3e8df] shadow-[0_30px_80px_rgba(239,68,68,0.18)] flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setActive(null)}
+              className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-white/95 border border-[#f3e8df] flex items-center justify-center text-[#1a1a1a] hover:bg-rose-50 hover:text-accent transition-colors shadow"
+              aria-label="Close case study"
+              data-testid="case-study-close"
+            >
+              <X size={18} />
+            </button>
+
+            <div className="relative aspect-[16/8] overflow-hidden flex-shrink-0">
+              <img src={p.img} alt={p.title} className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-6">
+                <span className="chip !bg-white/95 backdrop-blur-md">{p.cat}</span>
+                <h3 id="case-study-title" className="mt-3 text-2xl sm:text-3xl font-extrabold text-white drop-shadow leading-tight">{p.title}</h3>
+              </div>
+            </div>
+
+            <div className="overflow-y-auto p-6 sm:p-8 space-y-6">
+              <p className="text-[15px] leading-relaxed text-[#1a1a1a]" data-testid="case-study-description">{p.desc}</p>
+
+              {p.problem && (
+                <div>
+                  <div className="section-eyebrow mb-2">// problem</div>
+                  <p className="text-sm leading-relaxed text-muted-fg">{p.problem}</p>
+                </div>
+              )}
+              {p.approach && (
+                <div>
+                  <div className="section-eyebrow mb-2">// approach</div>
+                  <p className="text-sm leading-relaxed text-muted-fg">{p.approach}</p>
+                </div>
+              )}
+              {p.outcome && (
+                <div>
+                  <div className="section-eyebrow mb-2">// outcome</div>
+                  <p className="text-sm leading-relaxed text-muted-fg">{p.outcome}</p>
+                </div>
+              )}
+
+              <div>
+                <div className="section-eyebrow mb-2">// tech stack</div>
+                <div className="flex flex-wrap">
+                  {p.tags.map((t) => <span key={t} className="chip">{t}</span>)}
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-[#f3e8df] flex flex-wrap items-center justify-between gap-3">
+                <span className="text-xs mono text-muted-fg">Press <kbd className="px-1.5 py-0.5 rounded border border-[#f3e8df] bg-[#fdf8f4]">Esc</kbd> or click outside to close</span>
+                <a href="#contact" onClick={() => setActive(null)} className="btn-primary text-sm py-2.5 px-5">
+                  Discuss this project <ArrowUpRight size={15} />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
