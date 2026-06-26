@@ -55,7 +55,7 @@ class TestContactValidation:
     def test_empty_name_rejected(self, client):
         r = client.post(f"{API}/contact", json={
             "name": "",
-            "email": "qatest+portfolio@example.com",
+            "email": "qatest+portfolio2@example.com",
             "message": "Test message",
         }, timeout=30)
         assert r.status_code == 422, r.text
@@ -71,7 +71,7 @@ class TestContactValidation:
     def test_empty_message_rejected(self, client):
         r = client.post(f"{API}/contact", json={
             "name": "QA Tester",
-            "email": "qatest+portfolio@example.com",
+            "email": "qatest+portfolio2@example.com",
             "message": "",
         }, timeout=30)
         assert r.status_code == 422, r.text
@@ -89,7 +89,7 @@ class TestContactSubmission:
         unique_tag = f"TEST_{uuid.uuid4().hex[:10]}"
         payload = {
             "name": f"QA Bot {unique_tag}",
-            "email": "qatest+portfolio@example.com",
+            "email": "qatest+portfolio2@example.com",
             "message": f"Automated test message tag={unique_tag}",
         }
         r = client.post(f"{API}/contact", json=payload, timeout=90)
@@ -122,7 +122,7 @@ class TestContactSubmission:
         for tag in (tag_a, tag_b):
             r = client.post(f"{API}/contact", json={
                 "name": f"Sort {tag}",
-                "email": "qatest+portfolio@example.com",
+                "email": "qatest+portfolio2@example.com",
                 "message": f"ordering test tag={tag}",
             }, timeout=90)
             assert r.status_code == 200
@@ -143,3 +143,46 @@ class TestContactSubmission:
         assert r.status_code == 200
         for item in r.json():
             assert "_id" not in item, "Mongo _id should be excluded from response"
+
+
+
+# ---------- Auto-reply LinkedIn URL (unit-level inspection) ----------
+class TestAutoReplyTemplate:
+    """Directly invoke _build_autoreply_email to verify HTML/text bodies contain
+    the required LinkedIn URL — a critical new requirement."""
+
+    LINKEDIN_URL = "https://www.linkedin.com/in/nirmal-natarajan-0b5951384"
+
+    def test_autoreply_contains_linkedin_url(self):
+        import sys, importlib
+        sys.path.insert(0, "/app/backend")
+        server = importlib.import_module("server")
+        msg = server._build_autoreply_email(
+            name="QA Bot",
+            email="qatest+portfolio2@example.com",
+            message="Hello there",
+        )
+        # Walk all parts and collect bodies
+        text_parts = []
+        html_parts = []
+        for part in msg.walk():
+            ctype = part.get_content_type()
+            if ctype == "text/plain":
+                text_parts.append(part.get_content())
+            elif ctype == "text/html":
+                html_parts.append(part.get_content())
+        full_text = "\n".join(text_parts)
+        full_html = "\n".join(html_parts)
+
+        assert self.LINKEDIN_URL in full_text, f"LinkedIn URL missing from plain text body. Got: {full_text[:300]}"
+        assert self.LINKEDIN_URL in full_html, f"LinkedIn URL missing from HTML body. Got: {full_html[:500]}"
+        # Should be referenced as an href as well
+        assert f'href="{self.LINKEDIN_URL}"' in full_html, "LinkedIn URL not present as href attribute in HTML body"
+
+    def test_autoreply_subject_and_to(self):
+        import sys, importlib
+        sys.path.insert(0, "/app/backend")
+        server = importlib.import_module("server")
+        msg = server._build_autoreply_email("Jane", "jane@example.com", "Hi")
+        assert "Thanks for reaching out" in msg["Subject"]
+        assert "jane@example.com" in msg["To"]

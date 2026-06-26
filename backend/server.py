@@ -85,15 +85,15 @@ def _build_owner_email(name: str, email: str, message: str) -> EmailMessage:
         f"Message:\n{message}\n"
     )
     html_body = f"""
-    <div style="font-family:Inter,Arial,sans-serif;max-width:600px;margin:auto;padding:24px;background:#0b0f14;color:#e6edf3;border-radius:12px">
-      <h2 style="margin:0 0 12px;color:#7dd3fc">New Portfolio Contact</h2>
-      <p style="margin:0 0 20px;color:#9aa4b2">You have a new message via your portfolio.</p>
+    <div style="font-family:'Sora',Arial,sans-serif;max-width:600px;margin:auto;padding:28px;background:#fdf8f4;color:#1a1a1a;border-radius:14px;border:1px solid #f3e8df">
+      <h2 style="margin:0 0 8px;color:#ef4444">New Portfolio Contact</h2>
+      <p style="margin:0 0 20px;color:#5b5b5b">You have a new message via your portfolio.</p>
       <table style="width:100%;border-collapse:collapse">
-        <tr><td style="padding:8px 0;color:#9aa4b2;width:80px">Name</td><td style="padding:8px 0;font-weight:600">{name}</td></tr>
-        <tr><td style="padding:8px 0;color:#9aa4b2">Email</td><td style="padding:8px 0"><a style="color:#7dd3fc" href="mailto:{email}">{email}</a></td></tr>
+        <tr><td style="padding:8px 0;color:#5b5b5b;width:80px">Name</td><td style="padding:8px 0;font-weight:600;color:#1a1a1a">{name}</td></tr>
+        <tr><td style="padding:8px 0;color:#5b5b5b">Email</td><td style="padding:8px 0"><a style="color:#ef4444;text-decoration:none" href="mailto:{email}">{email}</a></td></tr>
       </table>
-      <div style="margin-top:16px;padding:16px;background:#111827;border-left:3px solid #7dd3fc;border-radius:8px;white-space:pre-wrap">{message}</div>
-      <p style="margin-top:20px;font-size:12px;color:#6b7280">Sent from nirmal-portfolio • {datetime.now(timezone.utc).strftime('%b %d, %Y %H:%M UTC')}</p>
+      <div style="margin-top:16px;padding:16px;background:#ffffff;border-left:3px solid #ef4444;border-radius:8px;white-space:pre-wrap;color:#1a1a1a">{message}</div>
+      <p style="margin-top:20px;font-size:12px;color:#8a8a8a">Sent from nirmal-portfolio • {datetime.now(timezone.utc).strftime('%b %d, %Y %H:%M UTC')}</p>
     </div>
     """
     msg.set_content(text_body)
@@ -108,33 +108,41 @@ def _build_autoreply_email(name: str, email: str, message: str) -> EmailMessage:
     msg["To"] = email
     msg["Reply-To"] = SMTP_USER
 
+    linkedin_url = "https://www.linkedin.com/in/nirmal-natarajan-0b5951384"
+
     text_body = (
         f"Hi {name},\n\n"
-        "Thank you for getting in touch through my portfolio. I've received your "
+        "Thank you for getting in touch through my portfolio! I've received your "
         "message and will get back to you as soon as possible — usually within 24-48 hours.\n\n"
         "Here is a copy of what you sent:\n"
         f"--------------------------------\n{message}\n--------------------------------\n\n"
         "In the meantime, feel free to connect with me on LinkedIn:\n"
-        "https://www.linkedin.com/in/nirmal-natarajan-0b5951384\n\n"
+        f"{linkedin_url}\n\n"
         "Warm regards,\n"
         "Nirmal Natarajan\n"
         "Aspiring Software Engineer & AI Enthusiast"
     )
     html_body = f"""
-    <div style="font-family:Inter,Arial,sans-serif;max-width:600px;margin:auto;padding:28px;background:#ffffff;color:#0b1220;border-radius:14px;border:1px solid #e5e7eb">
-      <h2 style="margin:0 0 8px;color:#0ea5e9">Thanks for reaching out, {name}!</h2>
-      <p style="margin:0 0 16px;color:#475569">
-        I've received your message and will get back to you as soon as possible — usually within 24-48 hours.
+    <div style="font-family:'Sora',Arial,sans-serif;max-width:600px;margin:auto;padding:32px;background:#fdf8f4;color:#1a1a1a;border-radius:16px;border:1px solid #f3e8df">
+      <div style="text-align:center;padding-bottom:18px;border-bottom:1px solid #f3e8df">
+        <div style="display:inline-block;width:60px;height:60px;background:linear-gradient(135deg,#ef4444,#f43f5e);border-radius:50%;line-height:60px;color:#ffffff;font-size:24px;font-weight:700">N</div>
+        <h2 style="margin:14px 0 4px;color:#1a1a1a;font-size:22px">Thanks for reaching out, {name}!</h2>
+        <p style="margin:0;color:#5b5b5b;font-size:14px">I'll get back to you within 24-48 hours.</p>
+      </div>
+      <p style="margin:22px 0 12px;color:#1a1a1a;font-size:15px;line-height:1.6">
+        Thank you for getting in touch through my portfolio. I appreciate your message and look forward to connecting with you.
       </p>
-      <div style="margin:16px 0;padding:14px 16px;background:#f8fafc;border-left:3px solid #0ea5e9;border-radius:8px;white-space:pre-wrap;color:#0f172a">{message}</div>
-      <p style="margin:16px 0 4px;color:#475569">In the meantime, feel free to connect with me:</p>
-      <p style="margin:0 0 20px">
-        <a href="https://www.linkedin.com/in/nirmal-natarajan-0b5951384" style="color:#0ea5e9;text-decoration:none;font-weight:600">LinkedIn →</a>
+      <div style="margin:16px 0;padding:16px 18px;background:#ffffff;border-left:3px solid #ef4444;border-radius:10px;white-space:pre-wrap;color:#1a1a1a;font-size:14px;line-height:1.6">{message}</div>
+      <p style="margin:24px 0 10px;color:#5b5b5b;font-size:14px">In the meantime, feel free to connect with me on LinkedIn:</p>
+      <p style="margin:0 0 24px">
+        <a href="{linkedin_url}" style="display:inline-block;padding:11px 22px;background:linear-gradient(135deg,#ef4444,#f43f5e);color:#ffffff;text-decoration:none;border-radius:10px;font-weight:600;font-size:14px">Connect on LinkedIn →</a>
       </p>
-      <hr style="border:none;border-top:1px solid #e5e7eb;margin:20px 0"/>
-      <p style="margin:0;color:#0f172a;font-weight:600">Nirmal Natarajan</p>
-      <p style="margin:2px 0 0;color:#64748b;font-size:13px">Aspiring Software Engineer & AI Enthusiast</p>
-      <p style="margin-top:18px;font-size:11px;color:#94a3b8">This is an automated acknowledgement. Please do not reply to this email.</p>
+      <p style="margin:6px 0 0;color:#8a8a8a;font-size:12px;word-break:break-all">{linkedin_url}</p>
+      <hr style="border:none;border-top:1px solid #f3e8df;margin:24px 0"/>
+      <p style="margin:0;color:#1a1a1a;font-weight:600">Nirmal Natarajan</p>
+      <p style="margin:2px 0 0;color:#5b5b5b;font-size:13px">Aspiring Software Engineer & AI Enthusiast</p>
+      <p style="margin:2px 0 0;color:#8a8a8a;font-size:12px">📍 United Kingdom</p>
+      <p style="margin-top:20px;font-size:11px;color:#a8a8a8">This is an automated acknowledgement. Please do not reply to this email — I'll personally respond to your original message soon.</p>
     </div>
     """
     msg.set_content(text_body)

@@ -23,23 +23,23 @@ function Nav({ active }) {
       {/* Top bar */}
       <div className="fixed top-0 left-0 right-0 z-50 glass-strong" data-testid="top-nav">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <a href="#home" className="flex items-center gap-2" data-testid="brand-link">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-300 to-pink-400 flex items-center justify-center text-[#04121b] font-bold">N</div>
-            <span className="font-semibold tracking-tight">Nirmal<span className="text-accent">.</span></span>
+          <a href="#home" className="flex items-center gap-2 mono font-bold text-lg" data-testid="brand-link">
+            <span className="text-[#1a1a1a]">N</span>
+            <span className="text-accent">N</span>
           </a>
           <nav className="hidden md:flex items-center gap-1">
             {SECTIONS.slice(1).map((s) => (
               <a
                 key={s.id}
                 href={`#${s.id}`}
-                className={`px-3 py-2 rounded-lg text-sm transition-colors ${active === s.id ? "text-accent" : "text-muted-fg hover:text-white"}`}
+                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${active === s.id ? "text-accent" : "text-muted-fg hover:text-[#1a1a1a]"}`}
                 data-testid={`nav-${s.id}`}
               >
                 {s.label}
               </a>
             ))}
           </nav>
-          <a href="#contact" className="btn-primary text-sm py-2 px-4" data-testid="nav-cta">
+          <a href="#contact" className="btn-primary text-sm py-2.5 px-5" data-testid="nav-cta">
             Hire me <ArrowUpRight size={16} />
           </a>
         </div>
@@ -68,61 +68,54 @@ function Hero() {
           <span className="pill" data-testid="hero-availability">
             <span className="pill-dot" /> Available for Opportunities
           </span>
-          <h1 className="mt-6 text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.05]" data-testid="hero-title">
+          <h1 className="mt-6 text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.05] text-[#1a1a1a]" data-testid="hero-title">
             Hi, I'm <br />
-            <span className="title-gradient">Nirmal Natarajan</span>
+            <span className="title-gradient accent-underline">Nirmal Natarajan</span>
           </h1>
-          <p className="mt-5 text-xl md:text-2xl text-muted-fg font-light max-w-2xl" data-testid="hero-subtitle">
-            Aspiring Software Engineer & AI Enthusiast — building intelligent solutions with AI, ML, and Full‑Stack Development.
+          <h2 className="mt-6 text-2xl md:text-3xl font-bold text-[#1a1a1a]">Aspiring Software Engineer & AI Enthusiast</h2>
+          <p className="mt-3 text-lg text-muted-fg max-w-2xl" data-testid="hero-subtitle">
+            Building intelligent solutions with AI, ML, and Full‑Stack Development.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <a href="#projects" className="btn-primary" data-testid="hero-view-projects">
               View Projects <ArrowUpRight size={18} />
             </a>
             <a href="#contact" className="btn-ghost" data-testid="hero-resume">
-              Get in touch <Send size={16} />
+              <Send size={16} /> Get in touch
             </a>
           </div>
-          <div className="mt-10 flex flex-wrap gap-6 text-sm">
+          <div className="mt-8 pt-6 border-t border-[#f3e8df] flex flex-wrap gap-6 text-sm">
             <a href="mailto:nirnat2002@gmail.com" className="flex items-center gap-2 text-muted-fg hover:text-accent transition-colors" data-testid="hero-email">
-              <Mail size={16} /> nirnat2002@gmail.com
+              <Mail size={16} /> Email
             </a>
             <a href="https://www.linkedin.com/in/nirmal-natarajan-0b5951384" target="_blank" rel="noreferrer" className="flex items-center gap-2 text-muted-fg hover:text-accent transition-colors" data-testid="hero-linkedin">
               <Linkedin size={16} /> LinkedIn
             </a>
             <a href="tel:+447818462507" className="flex items-center gap-2 text-muted-fg hover:text-accent transition-colors" data-testid="hero-phone">
-              <Phone size={16} /> +44 7818462507
+              <Phone size={16} /> Call
             </a>
           </div>
         </div>
 
-        {/* Right card */}
+        {/* Right card - light themed profile card */}
         <div className="relative">
-          <div className="float relative aspect-[4/5] rounded-3xl overflow-hidden glass-strong p-1">
-            <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/20 via-transparent to-pink-400/20" />
-            <div className="relative h-full rounded-[22px] overflow-hidden bg-[#0e131a] flex flex-col">
-              <div className="flex items-center gap-1.5 px-4 py-3 border-b border-white/5">
-                <span className="w-2.5 h-2.5 rounded-full bg-red-400/70" />
-                <span className="w-2.5 h-2.5 rounded-full bg-yellow-400/70" />
-                <span className="w-2.5 h-2.5 rounded-full bg-green-400/70" />
-                <span className="ml-3 mono text-xs text-muted-fg">~/portfolio/profile.tsx</span>
-              </div>
-              <div className="px-6 py-6 mono text-sm leading-7 flex-1">
-                <div><span className="text-pink-400">const</span> <span className="text-cyan-300">nirmal</span> = {`{`}</div>
-                <div className="pl-5"><span className="text-muted-fg">role:</span> <span className="text-emerald-300">"MSc Adv. CS"</span>,</div>
-                <div className="pl-5"><span className="text-muted-fg">uni:</span> <span className="text-emerald-300">"Newcastle Uni"</span>,</div>
-                <div className="pl-5"><span className="text-muted-fg">cgpa:</span> <span className="text-amber-300">9.01</span>,</div>
-                <div className="pl-5"><span className="text-muted-fg">stack:</span> [<span className="text-emerald-300">"AI/ML"</span>, <span className="text-emerald-300">"Full‑Stack"</span>],</div>
-                <div className="pl-5"><span className="text-muted-fg">based:</span> <span className="text-emerald-300">"United Kingdom"</span>,</div>
-                <div className="pl-5"><span className="text-muted-fg">status:</span> <span className="text-emerald-300">"Open to roles"</span></div>
-                <div>{`}`};</div>
-                <div className="mt-4 text-muted-fg">// ↪ scroll to explore</div>
-              </div>
-              <div className="grid grid-cols-3 border-t border-white/5 text-center divide-x divide-white/5">
-                <div className="py-4"><div className="text-2xl font-bold text-accent">9.01</div><div className="text-[11px] text-muted-fg mono uppercase tracking-widest">CGPA</div></div>
-                <div className="py-4"><div className="text-2xl font-bold text-accent">5+</div><div className="text-[11px] text-muted-fg mono uppercase tracking-widest">Projects</div></div>
-                <div className="py-4"><div className="text-2xl font-bold text-accent">2</div><div className="text-[11px] text-muted-fg mono uppercase tracking-widest">Pubs</div></div>
-              </div>
+          <div className="relative aspect-[4/5] max-w-md mx-auto rounded-3xl overflow-hidden bg-white border border-[#f3e8df] shadow-[0_30px_80px_rgba(248,180,150,0.18)]">
+            <div className="absolute inset-0 bg-gradient-to-br from-rose-50 via-white to-orange-50" />
+            <img
+              src="https://customer-assets.emergentagent.com/job_smtp-portfolio-pro/artifacts/8yicxbif_ChatGPT%20Image%20Jun%202%2C%202026%2C%2011_20_39%20PM.png"
+              alt="Nirmal Natarajan"
+              className="relative w-full h-full object-cover object-top"
+              onError={(e) => { e.currentTarget.style.display = 'none'; }}
+            />
+            {/* Top right CGPA badge */}
+            <div className="absolute top-5 right-5 stat-float float" data-testid="hero-stat-cgpa">
+              <div className="text-2xl font-extrabold text-accent leading-none">9.01</div>
+              <div className="text-[10px] mono uppercase tracking-widest text-muted-2 mt-1">CGPA</div>
+            </div>
+            {/* Bottom left Projects badge */}
+            <div className="absolute bottom-6 left-6 stat-float" data-testid="hero-stat-projects">
+              <div className="text-2xl font-extrabold text-success leading-none">5+</div>
+              <div className="text-[10px] mono uppercase tracking-widest text-muted-2 mt-1">Projects</div>
             </div>
           </div>
         </div>
@@ -135,7 +128,7 @@ function SectionTitle({ eyebrow, title, kicker }) {
   return (
     <div className="mb-12 max-w-3xl">
       <div className="section-eyebrow mb-3">{eyebrow}</div>
-      <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight title-gradient">{title}</h2>
+      <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-[#1a1a1a]">{title}</h2>
       {kicker && <p className="mt-4 text-muted-fg text-lg">{kicker}</p>}
     </div>
   );
@@ -158,7 +151,7 @@ function About() {
               { v: "7+", l: "Certifications" },
               { v: "2", l: "Publications" },
             ].map((s) => (
-              <div key={s.l} className="rounded-xl border border-white/8 bg-white/[0.02] p-4">
+              <div key={s.l} className="rounded-xl border border-[#f3e8df] bg-white/70 p-4">
                 <div className="text-3xl font-bold text-accent">{s.v}</div>
                 <div className="text-[11px] uppercase tracking-widest text-muted-fg mono mt-1">{s.l}</div>
               </div>
@@ -182,12 +175,12 @@ function About() {
             note: "CGPA 9.01 / 10.00",
           }].map((e) => (
             <div key={e.deg} className="glass rounded-2xl p-5 card-hover">
-              <div className="font-semibold">{e.deg}</div>
+              <div className="font-semibold text-[#1a1a1a]">{e.deg}</div>
               <div className="text-muted-fg text-sm">{e.place}</div>
               <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-fg mono">
                 <span>{e.range}</span><span>•</span><span>{e.loc}</span>
               </div>
-              <div className="mt-3 chip">{e.note}</div>
+              <div className="mt-3 chip-green">{e.note}</div>
             </div>
           ))}
         </div>
@@ -239,16 +232,16 @@ function Experience() {
     <section id="experience" className="py-24 px-6 max-w-7xl mx-auto" data-testid="experience-section">
       <SectionTitle eyebrow="// experience" title="Professional Journey" kicker="A journey of growth across software engineering, full‑stack development, and client services." />
       <div className="relative">
-        <div className="absolute left-4 top-2 bottom-2 w-px bg-gradient-to-b from-cyan-400/40 via-white/10 to-transparent" />
+        <div className="absolute left-4 top-2 bottom-2 w-px bg-gradient-to-b from-[#ef4444]/40 via-[#f3e8df] to-transparent" />
         <div className="space-y-6">
           {EXPERIENCE.map((e, i) => (
             <div key={i} className="relative pl-12">
-              <div className="absolute left-2.5 top-6 w-3 h-3 rounded-full bg-cyan-400 ring-4 ring-cyan-400/15" />
+              <div className="absolute left-2.5 top-6 w-3 h-3 rounded-full bg-[#ef4444] ring-4 ring-[#ef4444]/15" />
               <div className="glass rounded-2xl p-6 card-hover">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
                     <div className="text-xs mono uppercase tracking-widest text-accent">{e.type}</div>
-                    <div className="mt-1 text-xl font-semibold">{e.role}</div>
+                    <div className="mt-1 text-xl font-semibold text-[#1a1a1a]">{e.role}</div>
                     <div className="text-muted-fg">{e.company}</div>
                   </div>
                   <div className="text-xs mono text-muted-fg whitespace-nowrap">{e.range}</div>
@@ -314,11 +307,11 @@ function Projects() {
           <article key={p.title} className="glass rounded-2xl overflow-hidden card-hover group" data-testid={`project-card-${i}`}>
             <div className="relative aspect-[16/10] overflow-hidden">
               <img src={p.img} alt={p.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0d12] via-transparent to-transparent" />
-              <span className="absolute top-3 left-3 chip !bg-black/40 backdrop-blur-md !border-white/10">{p.cat}</span>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+              <span className="absolute top-3 left-3 chip !bg-white/95 backdrop-blur-md">{p.cat}</span>
             </div>
             <div className="p-6">
-              <h3 className="text-lg font-semibold leading-snug">{p.title}</h3>
+              <h3 className="text-lg font-semibold leading-snug text-[#1a1a1a]">{p.title}</h3>
               <p className="mt-2 text-sm text-muted-fg leading-relaxed">{p.desc}</p>
               <div className="mt-4 flex flex-wrap">
                 {p.tags.map((t) => <span key={t} className="chip">{t}</span>)}
@@ -369,8 +362,8 @@ function Skills() {
           <div className="text-xs mono uppercase tracking-widest text-accent flex items-center gap-2"><Sparkles size={14}/> Professional Attributes</div>
           <ul className="mt-4 space-y-3">
             {attrs.map((a) => (
-              <li key={a} className="flex items-center gap-3 text-sm">
-                <span className="w-1.5 h-1.5 rounded-full bg-pink-400" />{a}
+              <li key={a} className="flex items-center gap-3 text-sm text-[#1a1a1a]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#ef4444]" />{a}
               </li>
             ))}
           </ul>
@@ -398,11 +391,11 @@ function Certifications() {
         {CERTS.map((c) => (
           <div key={c.name} className="glass rounded-2xl p-5 card-hover">
             <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-300/20 to-pink-400/20 border border-white/10 flex items-center justify-center text-accent">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-100 to-orange-100 border border-rose-200 flex items-center justify-center text-accent">
                 <Award size={18}/>
               </div>
               <div>
-                <div className="font-medium leading-tight">{c.name}</div>
+                <div className="font-medium leading-tight text-[#1a1a1a]">{c.name}</div>
                 <div className="text-xs mono text-muted-fg mt-1">{c.by}</div>
               </div>
             </div>
@@ -412,12 +405,12 @@ function Certifications() {
       <div className="grid md:grid-cols-2 gap-4 mt-8">
         <div className="glass rounded-2xl p-6">
           <div className="text-xs mono uppercase tracking-widest text-accent">Professional Membership</div>
-          <div className="mt-3 font-medium">International Association of Engineers</div>
+          <div className="mt-3 font-medium text-[#1a1a1a]">International Association of Engineers</div>
           <div className="text-sm text-muted-fg mono">Member ID: 340014</div>
         </div>
         <div className="glass rounded-2xl p-6">
           <div className="text-xs mono uppercase tracking-widest text-accent">Professional Membership</div>
-          <div className="mt-3 font-medium">Institute for Engineering Research and Publication</div>
+          <div className="mt-3 font-medium text-[#1a1a1a]">Institute for Engineering Research and Publication</div>
           <div className="text-sm text-muted-fg mono">Member ID: 97473273</div>
         </div>
       </div>
@@ -447,7 +440,7 @@ function Publications() {
         {pubs.map((p) => (
           <div key={p.title} className="glass rounded-2xl p-6 card-hover">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-pink-400/20 to-cyan-300/20 border border-white/10 flex items-center justify-center text-accent">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-100 to-orange-100 border border-rose-200 flex items-center justify-center text-accent">
                 <BookOpen size={18}/>
               </div>
               <div>
@@ -455,7 +448,7 @@ function Publications() {
                 <div className="text-xs text-muted-fg mt-0.5">{p.meta}</div>
               </div>
             </div>
-            <h3 className="mt-4 font-semibold text-lg leading-snug">{p.title}</h3>
+            <h3 className="mt-4 font-semibold text-lg leading-snug text-[#1a1a1a]">{p.title}</h3>
             <p className="text-sm text-muted-fg mt-2">{p.desc}</p>
           </div>
         ))}
@@ -501,12 +494,12 @@ function Contact() {
         <div className="space-y-4">
           {channels.map((c) => (
             <a key={c.label} href={c.href} target={c.href.startsWith("http") ? "_blank" : undefined} rel="noreferrer" className="glass rounded-2xl p-5 flex items-center gap-4 card-hover" data-testid={c.testId}>
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-300/20 to-pink-400/20 border border-white/10 flex items-center justify-center text-accent">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-rose-100 to-orange-100 border border-rose-200 flex items-center justify-center text-accent">
                 <c.icon size={20}/>
               </div>
               <div>
                 <div className="text-xs mono uppercase tracking-widest text-muted-fg">{c.label}</div>
-                <div className="mt-0.5 font-medium">{c.value}</div>
+                <div className="mt-0.5 font-medium text-[#1a1a1a]">{c.value}</div>
               </div>
               <ArrowUpRight className="ml-auto text-muted-fg" size={18}/>
             </a>
@@ -516,7 +509,7 @@ function Contact() {
         <form onSubmit={submit} className="glass-strong rounded-2xl p-7" data-testid="contact-form">
           <div className="flex items-center gap-2">
             <FileText size={18} className="text-accent" />
-            <h3 className="text-xl font-semibold">Send a Message</h3>
+            <h3 className="text-xl font-semibold text-[#1a1a1a]">Send a Message</h3>
           </div>
           <p className="text-sm text-muted-fg mt-1">Drop a note — I'll reply within 24‑48 hours.</p>
 
@@ -570,7 +563,7 @@ function Contact() {
 
 function Footer() {
   return (
-    <footer className="border-t border-white/5 py-10 px-6 mt-12" data-testid="footer">
+    <footer className="border-t border-[#f3e8df] py-10 px-6 mt-12 bg-white/40" data-testid="footer">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="text-sm text-muted-fg">© {new Date().getFullYear()} Nirmal Natarajan. Crafted with care.</div>
         <div className="flex items-center gap-4">
@@ -599,7 +592,7 @@ export default function Portfolio() {
 
   return (
     <div className="relative" data-testid="portfolio-root">
-      <Toaster theme="dark" position="top-right" richColors />
+      <Toaster theme="light" position="top-right" richColors />
       <Nav active={active} />
       <Hero />
       <About />
