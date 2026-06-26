@@ -325,12 +325,12 @@ function Projects() {
 }
 
 const SKILLS = [
-  { group: "Programming", items: ["Java", "JavaScript", "Python", "C"] },
-  { group: "Web", items: ["HTML & CSS", "React JS"] },
-  { group: "Data & Analytics", items: ["Power BI"] },
-  { group: "AI / ML", items: ["Machine Learning", "Conversational AI"] },
-  { group: "Backend", items: ["Database Management"] },
-  { group: "Data Science", items: ["Feature Engineering"] },
+  { group: "Languages", items: ["Java", "JavaScript", "TypeScript", "Python", "C", "SQL"] },
+  { group: "Web & Frontend", items: ["HTML5", "CSS3", "React JS"] },
+  { group: "Backend & Frameworks", items: ["Spring Boot", "Node.js", "REST APIs"] },
+  { group: "Cloud & DevOps", items: ["AWS", "Docker", "CI/CD", "Microservices Architecture", "Git"] },
+  { group: "Data & ML", items: ["Pandas", "Scikit-learn", "Random Forest", "Power BI", "Machine Learning", "Feature Engineering", "Conversational AI"] },
+  { group: "Practices & Tools", items: ["Agile / Scrum", "Test-Driven Development (TDD)", "Database Design", "Database Management"] },
 ];
 
 function Skills() {

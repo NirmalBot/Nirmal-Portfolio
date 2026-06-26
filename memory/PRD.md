@@ -1,53 +1,51 @@
-# Nirmal Natarajan — Portfolio PRD
+# Nirmal Natarajan — Portfolio (PRD)
 
-## Problem Statement
-Add Gmail SMTP service for the personal portfolio at https://nirmal-portfolio-pro.preview.emergentagent.com/ so that visitors who fill the "Get In Touch" contact form (name, email, message) deliver the message to **nirnat2002@gmail.com** and the submitter receives an auto-acknowledgement email. Submissions should also be stored in MongoDB.
+## Original Problem Statement
+> Add Gmail SMTP service to the portfolio at https://nirmal-portfolio-pro.preview.emergentagent.com/. Visitors using the "Contact" form must email submissions to `nirnat2002@gmail.com` and receive an auto-reply that includes the LinkedIn URL `https://www.linkedin.com/in/nirmal-natarajan-0b5951384`. Match the original portfolio's cream/peach + coral red + emerald green colour palette.
 
 ## Architecture
-- **Frontend**: React 19 SPA (`/app/frontend`) — single-page portfolio with sections Home, About, Experience, Projects, Skills, Certifications, Publications, Contact. Tailwind + custom dark "code-IDE" aesthetic, glassmorphism, gradient titles.
-- **Backend**: FastAPI (`/app/backend/server.py`) exposing routes under `/api/*`:
-  - `POST /api/contact` → validates payload, sends owner notification + auto-reply via Gmail SMTP (port 587 STARTTLS, App Password), persists to `db.contact_messages`.
-  - `GET /api/contact/messages` → returns recent submissions (sorted desc).
-  - Legacy `/api/`, `/api/status` retained.
-- **DB**: MongoDB collection `contact_messages` { id, name, email, message, created_at, email_sent, auto_reply_sent }.
-- **SMTP**: `smtp.gmail.com:587` with App Password stored in `backend/.env`.
+- **Frontend**: React 19 (CRA + Craco), Tailwind, sonner (toasts), lucide-react, axios. Single-page portfolio at `/app/frontend/src/components/Portfolio.jsx`.
+- **Backend**: FastAPI + Motor (MongoDB), Python `smtplib` for Gmail SMTP over TLS (port 587). Routes under `/api`.
+- **DB**: MongoDB `contact_messages` collection stores every submission with delivery flags.
 
 ## User Personas
-1. **Recruiter / Hiring Manager** – browses portfolio, submits message via contact form, expects acknowledgement.
-2. **Portfolio Owner (Nirmal)** – receives notifications in Gmail inbox; replies directly (Reply-To set to submitter).
+- **Recruiter / Hiring Manager** — visits portfolio, drops a message via Contact form; expects acknowledgement.
+- **Portfolio Owner (Nirmal)** — receives notifications in Gmail; can audit submissions via `GET /api/contact/messages`.
 
-## Core Requirements
-- Contact form validates required fields (frontend + backend).
-- Two transactional emails per submission:
-  1. **Owner notification** (HTML + plain text) to `nirnat2002@gmail.com` with Reply-To = submitter.
-  2. **Auto-reply** to the submitter with copy of their message and LinkedIn CTA.
-- Persist every submission with email delivery status flags for audit.
-- Toast feedback on success/error in the UI.
+## Core Requirements (static)
+1. Public portfolio (Hero, About, Experience, Projects, Skills, Certifications, Publications, Contact).
+2. Contact form → owner notification email to `nirnat2002@gmail.com`.
+3. Contact form → auto-reply to submitter with LinkedIn URL.
+4. Every submission persisted to MongoDB.
+5. Light cream/peach theme with coral red (#ef4444) primary + emerald green (#10b981) secondary.
 
-## Implemented (Jan 2026)
-- ✅ Gmail SMTP integration via `smtplib` + STARTTLS using App Password.
-- ✅ Full portfolio frontend (Hero, About, Experience timeline, Projects grid, Skills, Certifications, Publications, Contact, Footer) with side-nav dots, top-nav, custom dark aesthetic.
-- ✅ `POST /api/contact` + MongoDB persistence + `GET /api/contact/messages`.
-- ✅ HTML + plain-text email bodies (dark themed for owner, light themed for submitter).
-- ✅ Toaster (sonner) feedback in UI; data-testids on all interactive elements.
-- ✅ Backend pytest suite: 9/9 passed; Playwright frontend E2E: 100%; real emails verified delivered.
+## Implemented (Jun 26, 2026)
+- Backend `POST /api/contact` sends 2 emails via Gmail SMTP App Password and persists `ContactRecord` (id, name, email, message, created_at, email_sent, auto_reply_sent).
+- Backend `GET /api/contact/messages` lists submissions (desc by created_at, `_id` excluded).
+- Auto-reply HTML + plain-text contain `https://www.linkedin.com/in/nirmal-natarajan-0b5951384`.
+- Owner email uses coral-themed HTML template; auto-reply uses branded coral card with CTA button.
+- Frontend portfolio with 8 sections, intersection-observer side nav dots, top sticky nav, sonner toasts.
+- Light theme palette in `/app/frontend/src/index.css`: bg `#fdf8f4`, accent `#ef4444`, success `#10b981`.
+- Hero uses user-provided portrait (suit photo) with floating CGPA + Projects stat cards.
+- Tested: backend 11/11 pytest, frontend Playwright — both 100%.
 
-## Backlog (P1 / P2)
-- **P1** Auth-protect `GET /api/contact/messages` (admin token) before public sharing.
-- **P1** Rate-limit `/api/contact` (e.g., 5 / IP / hour) to prevent abuse.
-- **P2** Move SMTP send to `asyncio.to_thread` or switch to `aiosmtplib` (non-blocking).
-- **P2** Add hCaptcha / Cloudflare Turnstile to the contact form for spam protection.
-- **P2** Admin dashboard route to view stored contact messages.
-- **P2** Slack / Telegram webhook for instant ping when a message arrives.
+## Backlog
+**P0**: none.
+**P1**:
+- Add admin auth to `GET /api/contact/messages` before publishing the route.
+- Move blocking `smtplib` into `asyncio.to_thread` to avoid blocking the event loop.
+- Centralise LinkedIn URL + colour palette in a single source of truth.
+**P2**:
+- Resume PDF download wiring on hero CTA.
+- Replace Unsplash project images with real screenshots.
+- Add OG/meta tags and favicon.
+- Rate-limit / hCaptcha on `/api/contact` to deter spam.
 
-## Files Touched
-- `/app/backend/.env` (SMTP credentials)
-- `/app/backend/server.py` (contact endpoint + email helpers)
-- `/app/frontend/src/App.js`
-- `/app/frontend/src/App.css`
-- `/app/frontend/src/index.css`
-- `/app/frontend/src/components/Portfolio.jsx` (new — full portfolio)
-- `/app/backend/tests/test_contact_api.py` (added by testing agent)
+## Configuration (backend/.env)
+- `SMTP_HOST=smtp.gmail.com`, `SMTP_PORT=587`
+- `SMTP_USER=nirnat2002@gmail.com`
+- `SMTP_PASSWORD=<App Password>` (configured)
+- `CONTACT_RECIPIENT=nirnat2002@gmail.com`
 
-## Test Status
-Backend: 100% (9/9). Frontend: 100%. Real Gmail SMTP delivery confirmed end-to-end.
+## Notes
+- No auth credentials created — `test_credentials.md` not needed.
